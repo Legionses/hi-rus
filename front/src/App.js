@@ -24,8 +24,6 @@ function App() {
 
   const submitData = () => {
     const file = fileRef.current;
-    console.log('file', file)
-    console.log('text', text)
     if (!fileRef || !text.length) return;
 
     const formData = new FormData();
@@ -36,25 +34,36 @@ function App() {
     console.log(formData)
   }
 
-  const changeText = ({target: {value}}) => setText(value)
+  const changeText = ({target: {value}}) => setText(value);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Отправить привет с украины без смс и регистрации.
-        </p>
-        <button onClick={submitData}>Отправить</button>
-        <textarea value={text} onChange={changeText}/>
-        <div {...getRootProps()}>
-          <input {...getInputProps()}/>
-          {
-            isDragActive ?
-                <p>Drop the files here ...</p> :
-                <p>Drag 'n' drop some files here, or click to select files</p>
-          }
-        </div>
-        <img ref={img} className="imgPreview" src={noImg} alt=""/>
-      </header>
+        <section className="config">
+            <div className="configTitles">
+                <p>Відправити привіт з України до Росії.</p>
+                <p>Отправить сообщение в Россиию.</p>
+                <p>Send message to Russians citizens.</p>
+            </div>
+
+            <button className='configSubmit' onClick={submitData}>Отправить</button>
+            <textarea className="configText" value={text} onChange={changeText} maxLength="350"/>
+            <div {...getRootProps()} className='uploadZone'>
+                <input {...getInputProps()}/>
+                {
+                    isDragActive ?
+                        <p>Drop the files here ...</p> :
+                        <p>Drag 'n' drop some files here, or click to select files</p>
+                }
+            </div>
+        </section>
+        <section className="preview">
+            <p className='previewTitle'>Попередній Перегляд / Превью / Preview</p>
+            <div className="previewMail">
+                <textarea className="previewText" value={text || "Текст/Text"} readOnly/>
+                <img ref={img} className="previewImg" src={noImg} alt=""/>
+            </div>
+        </section>
+
     </div>
   );
 }

@@ -1,44 +1,97 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  width: 100vw;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.uploadZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed white;
+  background: lightgrey;
+  width: 80%;
+  height: 300px;
+  color: #282c34;
+  margin:  50px auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.config,
+.preview {
+  width: 50vw;
+  height: 100vh;
+  flex-shrink: 0;
 }
 
-.imgPreview {
-  width: 300px;
-  height: 500px;
+.config {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: #282c34;
+}
+
+.configSubmit {
+  width: 100px;
+  height: 50px;
+  margin: 15px auto;
+}
+
+.configTitles p {
+  margin: 5px;
+  text-align: center;
+}
+
+.configText {
+  color: #282c34;
+  width: 80%;
+  height: 300px;
+  margin: 0 auto;
+  resize: none;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  background-color: grey;
+}
+
+.previewTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background: white;
+  margin-top: 0;
+  text-align: center;
+  height: 30px;
+}
+
+.previewImg {
+  width: 90%;
+  height: 59%;
   object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+.previewMail {
+  background: white;
+  height: 70%;
+  width: 100%;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.previewText {
+  text-align: center;
+  width: 100%;
+  height: 39%;
+  color: black;
+  resize: none;
+  border: none;
+  padding: 10px;
 }
