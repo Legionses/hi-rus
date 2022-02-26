@@ -4,7 +4,7 @@ const STATIC = {
             "пс: Возможно и желательно прикреплять фото, демонстрирующие то, о чем вы решили написат",
         "dnd_active":  "Бросить сюда",
         "dnd": "Перенесите фото сюда, или кликните для загрузки фотографии",
-        "btn": 'отправить',
+        "btn": 'Oтправить',
     },
     "en": {
         'description': "A one-way messenger for sending emails to 10 random Russians. Since the awareness of the average Russian about the war in Ukraine is not even close to objectivity, we welcome the sharing of photos with the horrors of war, the shelling of civilian objects: hospitals, homes, kindergartens. You can make a difference",
