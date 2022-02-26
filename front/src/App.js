@@ -1,11 +1,13 @@
 import './App.css';
-import {useRef, useState, useCallback} from "react";
+import {useRef, useState, useCallback, useMemo} from "react";
 import {useDropzone} from 'react-dropzone'
 import noImg from "./img.png";
 import axios from "axios";
+import STATIC from "./utils/staticText";
 
 function App() {
   const [text, setText] = useState('Текст повідомлення сюди / Text message here / Текст сообщения');
+  const [lang, setLang] = useState('ua');
   const img = useRef(null);
   const fileRef = useRef(null);
 
@@ -35,6 +37,11 @@ function App() {
   }
 
   const changeText = ({target: {value}}) => setText(value);
+  const changeLang = ({target: {value}}) => setLang(value);
+
+  const TEXT = useMemo(() => {
+      return STATIC[lang];
+  },[lang])
 
   return (
     <div className="App">
@@ -44,19 +51,21 @@ function App() {
                 <p>Отправить сообщение в Россию.</p>
                 <p>Send message to Russians citizens.</p>
             </div>
-
-            <button className='configSubmit' onClick={submitData}>Отправить</button>
+            <button className='configSubmit' onClick={submitData}>{TEXT.btn}</button>
+            <div>
+                <input checked={lang === "ua"} onChange={changeLang} type="radio" value="ua" name="lang" id="lang1"/>
+                <label htmlFor="contactChoice1">Українська</label>
+                <input checked={lang === 'en'} onChange={changeLang} type="radio" value="en" name="lang" id="lang2"/>
+                <label htmlFor="contactChoice1">English</label>
+                <input checked={lang === 'ru'}  onChange={changeLang} type="radio" value="ru" name="lang" id="lang3"/>
+                <label htmlFor="contactChoice1">Русский</label>
+            </div>
+            <p className="description">{TEXT.description}</p>
             <textarea className="configText" value={text} onChange={changeText} maxLength="350"/>
             <div {...getRootProps()} className='uploadZone'>
                 <input {...getInputProps()}/>
                 {
-                    isDragActive ?
-                        <p>Вкинути сюди / Drop the files here / Бросить сюда ...</p> :
-                        <>
-                        <p>Перенесіть фото сюди, або клікніть для вибору</p>
-                        <p>Drag 'n' drop some photo here, or click to select photo</p>
-                        <p>Перенесите фото сюда, или кликните для загрузки фотографии</p>
-                        </>
+                    isDragActive ? <p> {TEXT.dnd_active} ...</p> : <p>{TEXT.dnd}</p>
                 }
             </div>
         </section>
