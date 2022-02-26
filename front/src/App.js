@@ -74,7 +74,7 @@ function App() {
             </div>
             <p className="description">{TEXT.description}</p>
             <textarea className="configText" value={text} placeholder={PLACEHOLDER} onChange={changeText} maxLength="350"/>
-            <Files ext={["jpg", "png"]} onChange={setFiles} lang={lang}></Files>
+            <Files accept={[".jpg", ".png"]} onChange={setFiles} lang={lang}></Files>
             <button className='configSubmit' onClick={submitData} disabled={state === "loading"}>{TEXT.btn}</button>
             <span className={state + "-message"}>{statusMessage}</span>
         </section>
