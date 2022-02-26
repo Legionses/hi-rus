@@ -9,7 +9,8 @@
     "postinstall": "cd back && npm install",
     "start": "concurrently npm:start:*",
     "start:back": "cd back && npm start",
-    "start:front": "cd front && npm start"
+    "start:front": "cd front && npm start",
+    "deploy": "cd front && npm run build && cd ../back && npm run start-prod"
   },
   "repository": {
     "type": "git",
