@@ -60,6 +60,13 @@
   width: 100px;
   height: 50px;
   margin: 15px auto 25px;
+  background: green;
+  color: white;
+  border-radius: 15px;
+}
+
+.configSubmit:disabled {
+  background: grey;
 }
 
 .configTitles p {
@@ -68,19 +75,35 @@
 }
 
 .configText {
+  position: relative;
   color: #282c34;
   width: 80%;
+  min-height: 200px;
   height: 20%;
   margin: 0 auto;
-  resize: none;
   display: block;
   flex-shrink: 0;
+}
+
+.configText textarea {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  resize: none;
+}
+
+.configTextLength {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 
 .preview {
   display: flex;
   flex-direction: column;
   background-color: grey;
+  min-height: 500px;
+  flex-shrink: 0;
 }
 
 .previewTitle {
@@ -110,6 +133,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  min-height: 500px;
 }
 
 .previewMail > .images {
