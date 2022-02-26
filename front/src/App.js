@@ -15,7 +15,7 @@ function App() {
   const [statusMessage, setStatusMessage] = useState("");
 
   const submitData = async () => {
-    if (!files.length || !text.length) return;
+    if (!text.length) return;
     setState("loading");
     setStatusMessage("");
 
@@ -67,7 +67,7 @@ function App() {
             <button
                 className='configSubmit'
                 onClick={submitData}
-                disabled={state === "loading" || !files.length || !text.length}>
+                disabled={state === "loading" || !text.length}>
                 {TEXT.btn}
             </button>
             <span className={state + "-message"}>{statusMessage}</span>
