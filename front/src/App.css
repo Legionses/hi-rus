@@ -2,13 +2,13 @@
   min-height: 100vh;
   width: 100vw;
   display: flex;
-  color: white;
 }
 
 .description {
   width: 80%;
   display: block;
-  margin: 15px auto ;
+  margin: 15px auto;
+  white-space: pre-wrap;
 }
 
 .uploadZone {
@@ -52,6 +52,7 @@
   display: flex;
   flex-direction: column;
   background-color: #282c34;
+  color: white;
 }
 
 .configSubmit {
@@ -94,11 +95,11 @@
 }
 
 .previewImg {
-  width: 90%;
-  height: 59%;
+  width: 30%;
+  height: auto;
   object-fit: contain;
   margin: 0 auto;
-  display: block;
+  /* display: block; */
 }
 
 .previewMail {
@@ -111,6 +112,10 @@
   padding: 10px;
 }
 
+.previewMail > .images {
+  margin-top: 3em;
+}
+
 .previewText {
   text-align: center;
   width: 100%;
@@ -119,4 +124,14 @@
   resize: none;
   border: none;
   padding: 10px;
+}
+
+.error-message {
+  color: red;
+  margin: 0 auto;
+}
+
+.success-message {
+  color: green;
+  margin: 0 auto;
 }

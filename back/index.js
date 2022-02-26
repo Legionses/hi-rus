@@ -49,35 +49,21 @@ async function run() {
     app.use(cors());
 
     app.post('/api/send', upload.array("attachments", 5), async (req, res) => {
-        // send mail with defined transport object
-        // let info = await transporter.sendMail({
-        //     from: 'Test test <test@test.com>', // sender address
-        //     to: emails.join(", "), // list of receivers
-        //     subject: "Здравствуй, русский.", // Subject line
-        //     text: req.body && req.body.message, // plain text body
-        //     attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
-        // });
         try {
+            if (!req.body || !req.body.message) {
+                throw new Error("Message empty. Please enter the message!")
+            }
+
             const info = await transporter.sendMail({
                 from: 'Hi Russian Project <service@hi-russian.com>', // sender address
                 to: emails.join(", "), // list of receivers
                 subject: "Здравствуй, русский.", // Subject line
-                text: req.body && req.body.message, // plain text body
+                text: req.body.message, // plain text body
                 attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
             });
 
             console.log("Message sent: %s", info.message);
 
-            // Preview only available when sending through an Ethereal account
-            // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-            
-            // await new Promise((res, rej) => mailer.send({
-            //     from: 'Hi Russian Project <service@hi-russian.com>', // sender address
-            //     to: emails, // list of receivers
-            //     subject: "Здравствуй, русский.", // Subject line
-            //     text: req.body && req.body.message, // plain text body
-            //     attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
-            // }, (error, result) => error ? rej(error) : res(result)));
             res.sendStatus(200);
         } catch (error) {
             res.status(400);
