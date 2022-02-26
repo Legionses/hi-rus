@@ -1,0 +1,29 @@
+POST http://localhost:8080/api/send
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="message"
+
+Hiiiii
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="attachments"; filename="1.png"
+Content-Type: image/png
+
+< /mnt/c/Users/nosoc/Desktop/1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+POST http://localhost:8080/api/addEmails
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="text"
+
+nosock93@gmail.com
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="attachments"; filename="1.png"
+# Content-Type: image/png
+
+# < /mnt/c/Users/nosoc/Desktop/1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

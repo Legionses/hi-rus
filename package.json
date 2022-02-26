@@ -1,0 +1,27 @@
+{
+  "name": "hi-rus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "cd front && npm install",
+    "postinstall": "cd back && npm install",
+    "start": "concurrently npm:start:*",
+    "start:back": "cd back && npm start",
+    "start:front": "cd front && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Legionses/hi-rus.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Legionses/hi-rus/issues"
+  },
+  "homepage": "https://github.com/Legionses/hi-rus#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
