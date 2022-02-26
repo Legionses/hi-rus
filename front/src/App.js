@@ -1,12 +1,11 @@
 import './App.css';
-import {useRef, useState, useCallback, useMemo} from "react";
-import {useDropzone} from 'react-dropzone'
-import noImg from "./img.png";
+import { useState, useMemo} from "react";
 import axios from "axios";
 import STATIC from "./utils/staticText";
 import { Files } from './Files';
 
 const PLACEHOLDER = 'Текст повідомлення сюди / Text message here / Текст сообщения';
+const TEXT_MAX_LENGTH = 350
 
 function App() {
   const [text, setText] = useState("");
@@ -15,21 +14,8 @@ function App() {
   const [state, setState] = useState("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
-  // const onDrop = useCallback(acceptedFiles => {
-  //   const reader = new FileReader()
-  //   const _file = acceptedFiles[0];
-  //   reader.onload = () => {
-  //   // Do whatever you want with the file contents
-  //   const binaryStr = reader.result
-  //   img.current.src = binaryStr;
-  //   }
-  //   reader.readAsDataURL(_file)
-  //   fileRef.current = _file;
-  // }, []);
-
   const submitData = async () => {
-    // const file = fileRef.current;
-    // if (!fileRef || !text.length) return;
+    if (!files.length || !text.length) return;
     setState("loading");
     setStatusMessage("");
 
@@ -73,9 +59,17 @@ function App() {
                 <label htmlFor="contactChoice1">Русский</label>
             </div>
             <p className="description">{TEXT.description}</p>
-            <textarea className="configText" value={text} placeholder={PLACEHOLDER} onChange={changeText} maxLength="350"/>
-            <Files accept={[".jpg", ".png"]} onChange={setFiles} lang={lang}></Files>
-            <button className='configSubmit' onClick={submitData} disabled={state === "loading"}>{TEXT.btn}</button>
+            <div className="configText">
+                <textarea value={text} placeholder={PLACEHOLDER} onChange={changeText} maxLength={TEXT_MAX_LENGTH}/>
+                <span className="configTextLength">{text.length}/{TEXT_MAX_LENGTH}</span>
+            </div>
+            <Files ext={["jpg", "png"]} onChange={setFiles} lang={lang}/>
+            <button
+                className='configSubmit'
+                onClick={submitData}
+                disabled={state === "loading" || !files.length || !text.length}>
+                {TEXT.btn}
+            </button>
             <span className={state + "-message"}>{statusMessage}</span>
         </section>
         <section className="preview">
@@ -87,7 +81,6 @@ function App() {
                 <div class="images">
                   {files.map(file => <img className="previewImg" alt="" src={URL.createObjectURL(file)}></img>)}
                 </div>
-                {/* <img ref={img} className="previewImg" src={noImg} alt=""/> */}
             </div>
         </section>
 
