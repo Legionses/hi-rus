@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const { getTransporter } = require("./mailer");
+const { getTransporter, mailer } = require("./mailer");
 const nodemailer = require("nodemailer");
 const multer = require('multer');
 const express = require("express");
@@ -50,25 +50,44 @@ async function run() {
 
     app.post('/api/send', upload.array("attachments", 5), async (req, res) => {
         // send mail with defined transport object
-        let info = await transporter.sendMail({
-            from: 'Test test <test@test.com>', // sender address
-            to: emails.join(", "), // list of receivers
-            subject: "Здравствуй, русский.", // Subject line
-            text: req.body.message, // plain text body
-            attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
-        });
+        // let info = await transporter.sendMail({
+        //     from: 'Test test <test@test.com>', // sender address
+        //     to: emails.join(", "), // list of receivers
+        //     subject: "Здравствуй, русский.", // Subject line
+        //     text: req.body && req.body.message, // plain text body
+        //     attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
+        // });
+        try {
+            const info = await transporter.sendMail({
+                from: 'Hi Russian Project <service@hi-russian.com>', // sender address
+                to: emails.join(", "), // list of receivers
+                subject: "Здравствуй, русский.", // Subject line
+                text: req.body && req.body.message, // plain text body
+                attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
+            });
 
-        console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+            console.log("Message sent: %s", info.message);
 
-        // Preview only available when sending through an Ethereal account
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        res.sendStatus(200);
+            // Preview only available when sending through an Ethereal account
+            // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            
+            // await new Promise((res, rej) => mailer.send({
+            //     from: 'Hi Russian Project <service@hi-russian.com>', // sender address
+            //     to: emails, // list of receivers
+            //     subject: "Здравствуй, русский.", // Subject line
+            //     text: req.body && req.body.message, // plain text body
+            //     attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
+            // }, (error, result) => error ? rej(error) : res(result)));
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(400);
+            res.json({error: error.message})
+        }
     });
 
     app.post('/api/addEmails', upload.array("files", 5), async (req, res) => {
         try {
-            const text = req.body.text;
+            const text = req.body && req.body.text || "";
             const fromFiles = await Promise.all(getFiles(req, [".txt", ".dump"]).map(async file => readFile(file.path, "utf-8")));
             const emails = fromFiles.concat([text])
                 .flatMap(t => t.split("\n"))

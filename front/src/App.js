@@ -29,10 +29,10 @@ function App() {
     if (!fileRef || !text.length) return;
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('text', text);
+    formData.append('attachments', file);
+    formData.append('message', text);
 
-    // axios.post('/upload/image', {body: formData});
+    axios.post('api/send', formData);
     console.log(formData)
   }
 
