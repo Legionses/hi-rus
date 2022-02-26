@@ -6,7 +6,7 @@ const express = require("express");
 const cors = require('cors')
 const {rm, readFile} = require("fs/promises");
 
-const {HIRUS_DB_USER, HIRUS_DB_PASS, PORT} = process.env;
+const {HIRUS_DB_USER, HIRUS_DB_PASS, PORT, ADD_EMAILS_PASS} = process.env;
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Connection URI
@@ -73,6 +73,9 @@ async function run() {
 
     app.post('/api/addEmails', upload.array("files", 5), async (req, res) => {
         try {
+            if (!req.body || !req.body.password === ADD_EMAILS_PASS) {
+                throw("Unauthorized");
+            }
             const text = req.body && req.body.text || "";
             const fromFiles = await Promise.all(getFiles(req, [".txt", ".dump"]).map(async file => readFile(file.path, "utf-8")));
             const emails = fromFiles.concat([text])
@@ -89,7 +92,7 @@ async function run() {
                 });
                 res.json({count: inserted.insertedCount});
             } catch {
-                throw new Error("Some, but maybe not all emails failed to add. Check the DB size")
+                res.json({error: "Some, but maybe not all emails failed to add. Check the DB size"});
             }
         } catch(error) {
             res.status(400);
