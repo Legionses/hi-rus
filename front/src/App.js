@@ -5,7 +5,7 @@ import noImg from "./img.png";
 import axios from "axios";
 
 function App() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState('Текст повідомлення сюди / Text message here / Текст сообщения');
   const img = useRef(null);
   const fileRef = useRef(null);
 
@@ -41,7 +41,7 @@ function App() {
         <section className="config">
             <div className="configTitles">
                 <p>Відправити привіт з України до Росії.</p>
-                <p>Отправить сообщение в Россиию.</p>
+                <p>Отправить сообщение в Россию.</p>
                 <p>Send message to Russians citizens.</p>
             </div>
 
@@ -51,15 +51,23 @@ function App() {
                 <input {...getInputProps()}/>
                 {
                     isDragActive ?
-                        <p>Drop the files here ...</p> :
-                        <p>Drag 'n' drop some files here, or click to select files</p>
+                        <p>Вкинути сюди / Drop the files here / Бросить сюда ...</p> :
+                        <>
+                        <p>Перенесіть фото сюди, або клікніть для вибору</p>
+                        <p>Drag 'n' drop some photo here, or click to select photo</p>
+                        <p>Перенесите фото сюда, или кликните для загрузки фотографии</p>
+                        </>
                 }
             </div>
         </section>
         <section className="preview">
-            <p className='previewTitle'>Попередній Перегляд / Превью / Preview</p>
+            <p className='previewTitle'>Попередній Перегляд / Прев'ю / Preview</p>
             <div className="previewMail">
-                <textarea className="previewText" value={text || "Текст/Text"} readOnly/>
+                <textarea
+                    className="previewText"
+                    value={text}
+                    readOnly
+                />
                 <img ref={img} className="previewImg" src={noImg} alt=""/>
             </div>
         </section>
