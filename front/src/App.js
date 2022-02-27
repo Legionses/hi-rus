@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useMemo} from "react";
+import { useState, useMemo, useEffect} from "react";
 import axios from "axios";
 import STATIC from "./utils/staticText";
 import { Files } from './Files';
@@ -14,6 +14,7 @@ function App() {
   const [state, setState] = useState("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [emails, setEmails] = useState([]);
+  const [stats, setStats] = useState(null);
 
   
   const requestEmails = async () => {
@@ -31,7 +32,7 @@ function App() {
       setState("error");
     }
   }
-
+  
   const submitData = async () => {
     if (!text.length) return;
     setState("loading");
@@ -56,12 +57,19 @@ function App() {
   const changeText = ({target: {value}}) => setText(value);
   const changeLang = ({target: {value}}) => setLang(value);
 
+  const loadStats = async() => {
+    const res = await axios.get('api/stats');
+    setStats(res.data);
+  } 
+
+  useEffect(() => loadStats(), []);
+
   const TEXT = useMemo(() => {
       return STATIC[lang];
   }, [lang])
 
-  return (
-    <div className="App">
+  return (<>
+    <section className="App">
         <section className="config">
             <div className="configTitles">
                 <p>Відправити привіт з України до Росії.</p>
@@ -77,6 +85,13 @@ function App() {
                 <label htmlFor="contactChoice1">Русский</label>
             </div>
             <p className="description">{TEXT.description}</p>
+            {stats && <>
+            <p> {TEXT.emails}: {stats.emails} </p>
+            <p> {TEXT.generated}: {stats.generated} </p>
+            </>}
+            <address>
+              <a href="https://t.me/tell_russians_truth">Канал в Телеграмі / Telegram channel / Канал в Телеграме</a>
+            </address>
             <hr />
             <section>
               <h3>{TEXT.manual}</h3>
@@ -111,9 +126,8 @@ function App() {
                 </div>
             </div>
         </section>
-
-    </div>
-  );
+    </section>
+  </>);
 }
 
 export default App;

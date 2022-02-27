@@ -31,12 +31,31 @@ async function run() {
   try {
     // Connect the client to the server
     await client.connect();
-    const coll = client.db("hi-rus").collection("emails");
-    await coll.createIndex( { "email": 1 }, { unique: true } )
-
+    const db = client.db("hi-rus");
+    await db.collection("emails")
+        .createIndex( { "email": 1 }, { unique: true } );
+    let stats;
+    try {
+        stats = await db.collection("stats").findOne();
+    } catch {}
+    if (!stats) {
+        await db.collection("stats").insertOne({
+            emails: await db.collection("emails").estimatedDocumentCount(),
+            generated: 1000, // estimate as of 2022-02-27T16:32:26.666Z
+        });
+    }
     
     async function getEmails() {
-        return (await coll.aggregate([{ $sample: { size: 10 } }]).toArray()).map(u => u.email);
+        return (await db.collection("emails").aggregate([{ $sample: { size: 10 } }]).toArray()).map(u => u.email);
+    }
+    async function getStats() {
+        return (await db.collection("stats").findOne());
+    }
+    
+    async function addEmails(emails) {
+        await db.collection("emails").insertMany(emails.map(email => ({email})), {
+            ordered: false,
+        });
     }
 
     const transporter = await getTransporter();
@@ -47,6 +66,18 @@ async function run() {
     const app = express();
 
     app.use(cors());
+
+    
+    app.get('/api/stats', async (req, res) => {
+        try {
+            const stats = await getStats();
+            res.json(stats);
+        } catch(error) {
+            console.error(error);
+            res.status(500);
+            res.json({error: error.message});
+        }
+    });
 
     app.post('/api/send', upload.array("attachments", 5), async (req, res) => {
         try {
@@ -78,6 +109,9 @@ async function run() {
     app.get('/api/emails', async (req, res) => {
         try {
             const emails = await getEmails();
+            await db.collection("stats").updateOne({}, {
+                $inc: { generated: 10 }
+            });
             res.json(emails);
         } catch(error) {
             console.error(error);
@@ -103,8 +137,9 @@ async function run() {
                 throw new Error("No readable emails found");
             }
             try {
-                const inserted = await coll.insertMany(unique.map(email => ({email})), {
-                    ordered: false,
+                const inserted = await addEmails(unique);
+                await db.collection("stats").updateOne({}, {
+                    $inc: { emails: inserted.insertedCount }
                 });
                 res.json({count: inserted.insertedCount});
             } catch {
