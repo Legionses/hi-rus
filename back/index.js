@@ -136,15 +136,24 @@ async function run() {
             if (!unique.length) {
                 throw new Error("No readable emails found");
             }
+            let inserted;
             try {
-                const inserted = await addEmails(unique);
-                await db.collection("stats").updateOne({}, {
-                    $inc: { emails: inserted.insertedCount }
-                });
-                res.json({count: inserted.insertedCount});
-            } catch {
-                res.json({error: "Some, but maybe not all emails failed to add. Check the DB size"});
+                const res = await addEmails(unique);
+                inserted = res && res.insertedCount;
+                
+            } catch (error) {
+                inserted = error && error.result && error.result.result && error.result.result.nInserted || 0;
+                console.error(error);
             }
+
+            if (inserted) {
+                res.json({count: inserted});
+            } else {
+                throw new Error("No new emails inserted");
+            }
+            await db.collection("stats").updateOne({}, {
+                $inc: { emails: inserted }
+            });
         } catch(error) {
             console.error(error);
             res.status(400);
