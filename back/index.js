@@ -5,6 +5,7 @@ const multer = require('multer');
 const express = require("express");
 const cors = require('cors')
 const {rm, readFile} = require("fs/promises");
+const path = require("path");
 
 const {HIRUS_DB_USER, HIRUS_DB_PASS, PORT, ADD_EMAILS_PASS} = process.env;
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -101,9 +102,8 @@ async function run() {
     });
     app.use(express.static('../front/build'));
     app.get("*", (req, res) => {
-        res.sendFile("../front/build/index.html")
+        res.sendFile(path.join(__dirname, "../front/build/index.html"))
     });
-
     app.listen(PORT || 8080);
   } catch(error) {
     // Ensures that the client will close when you finish/error
