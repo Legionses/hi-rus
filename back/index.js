@@ -39,7 +39,6 @@ async function run() {
         return (await coll.aggregate([{ $sample: { size: 10 } }]).toArray()).map(u => u.email);
     }
 
-    const emails = await getEmails();
     const transporter = await getTransporter();
     
 
@@ -51,6 +50,7 @@ async function run() {
 
     app.post('/api/send', upload.array("attachments", 5), async (req, res) => {
         try {
+            const emails = await getEmails();
             if (!req.body || !req.body.message) {
                 throw new Error("Message empty. Please enter the message!")
             }
@@ -72,6 +72,17 @@ async function run() {
             console.error(error);
             res.status(400);
             res.json({error: error.message})
+        }
+    });
+    
+    app.get('/api/emails', async (req, res) => {
+        try {
+            const emails = await getEmails();
+            res.json(emails);
+        } catch(error) {
+            console.error(error);
+            res.status(500);
+            res.json({error: error.message});
         }
     });
 

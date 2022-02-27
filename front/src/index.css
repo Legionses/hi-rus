@@ -34,3 +34,7 @@ html {
   overflow:auto; /* triggers 100% height in Opera 9.5 */
   overflow-y:scroll; /* creates a horizontal scrollbar, for a more consistent look & feel */
 }
+
+hr {
+  width: 100%;
+}
