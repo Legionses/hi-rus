@@ -50,7 +50,7 @@ function App() {
                 <p>Отправить сообщение в Россию.</p>
                 <p>Send message to Russians citizens.</p>
             </div>
-            <div>
+            <div className="lang">
                 <input checked={lang === "ua"} onChange={changeLang} type="radio" value="ua" name="lang" id="lang1"/>
                 <label htmlFor="contactChoice1">Українська</label>
                 <input checked={lang === 'en'} onChange={changeLang} type="radio" value="en" name="lang" id="lang2"/>
