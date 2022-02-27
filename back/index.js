@@ -55,15 +55,17 @@ async function run() {
                 throw new Error("Message empty. Please enter the message!")
             }
 
-            const info = await transporter.sendMail({
-                from: 'Hi Russian Project <service@hi-russian.com>', // sender address
-                to: emails.join(", "), // list of receivers
-                subject: "Здравствуй, русский.", // Subject line
-                text: req.body.message, // plain text body
-                attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
-            });
+            for (const email of emails) {
+                const info = await transporter.sendMail({
+                    from: 'Hi Russian Project <service@hi-russian.com>', // sender address
+                    to: email, // list of receivers
+                    subject: "Здравствуй, русский.", // Subject line
+                    text: req.body.message, // plain text body
+                    attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
+                });
+                console.log("Message sent: %s", info.message);
+            }
 
-            console.log("Message sent: %s", info.message);
 
             res.sendStatus(200);
         } catch (error) {
