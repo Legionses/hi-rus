@@ -167,3 +167,11 @@
   color: green;
   margin: 0 auto;
 }
+
+address {
+  margin: 0 auto;
+}
+
+address a:visited, address a:active, address a {
+  color: white;
+}
