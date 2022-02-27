@@ -67,6 +67,7 @@ async function run() {
 
             res.sendStatus(200);
         } catch (error) {
+            console.error(error);
             res.status(400);
             res.json({error: error.message})
         }
@@ -97,6 +98,7 @@ async function run() {
                 res.json({error: "Some, but maybe not all emails failed to add. Check the DB size"});
             }
         } catch(error) {
+            console.error(error);
             res.status(400);
             res.json({error: error.message});
         }
