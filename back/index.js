@@ -78,10 +78,11 @@ async function run() {
                 throw("Unauthorized");
             }
             const text = req.body && req.body.text || "";
-            const fromFiles = await Promise.all(getFiles(req, [".txt", ".dump"]).map(async file => readFile(file.path, "utf-8")));
-            const emails = fromFiles.concat([text])
-                .flatMap(t => t.split("\n"))
-                .map(l => l.trim())
+            const fromFiles = await Promise.all(getFiles(req, ["txt", "dump"]).map(file => readFile(file.path, "utf-8")));
+            console.log();
+            const lines = fromFiles.concat([text])
+                .flatMap(t => t.split("\n"));
+            const emails = lines.map(l => l.trim())
                 .filter(l => l && l.match(EMAIL_REGEX));
             const unique = Array.from(new Set(emails));
             if (!unique.length) {
