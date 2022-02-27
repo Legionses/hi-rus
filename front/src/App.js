@@ -13,6 +13,24 @@ function App() {
   const [files, setFiles] = useState([]);
   const [state, setState] = useState("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const [emails, setEmails] = useState([]);
+
+  
+  const requestEmails = async () => {
+    setState("loading");
+
+    try {
+      const res = await axios.get('api/emails');
+      if (res.data.error) {
+        setEmails([res.data.error]);
+        throw new Error(res.data.error);
+      }
+      setEmails(res.data);
+      setState("success");
+    } catch (error) {
+      setState("error");
+    }
+  }
 
   const submitData = async () => {
     if (!text.length) return;
@@ -59,10 +77,20 @@ function App() {
                 <label htmlFor="contactChoice1">Русский</label>
             </div>
             <p className="description">{TEXT.description}</p>
-            <div className="configText">
-                <textarea value={text} placeholder={PLACEHOLDER} onChange={changeText} maxLength={TEXT_MAX_LENGTH}/>
-                <span className="configTextLength">{text.length}/{TEXT_MAX_LENGTH}</span>
-            </div>
+            <hr />
+            <section>
+              <h3>{TEXT.manual}</h3>
+              <button disabled={state === "loading"} onClick={requestEmails}>{TEXT.generate}</button>
+              <p>{emails.join(", ")}</p>
+            </section>
+            <hr />
+            <section>
+              <h3>{TEXT.auto}</h3>
+              <div className="configText">
+                  <textarea value={text} placeholder={PLACEHOLDER} onChange={changeText} maxLength={TEXT_MAX_LENGTH}/>
+                  <span className="configTextLength">{text.length}/{TEXT_MAX_LENGTH}</span>
+              </div>
+            </section>
             <Files ext={["jpg", "png"]} onChange={setFiles} lang={lang}/>
             <button
                 className='configSubmit'
