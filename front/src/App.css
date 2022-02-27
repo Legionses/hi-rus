@@ -47,6 +47,13 @@
   }
 }
 
+.lang {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .config {
   padding: 0 15px;
   display: flex;
@@ -63,6 +70,7 @@
   background: green;
   color: white;
   border-radius: 15px;
+  flex-shrink: 0;
 }
 
 .configSubmit:disabled {
