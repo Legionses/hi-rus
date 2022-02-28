@@ -5,7 +5,7 @@ import STATIC from "./utils/staticText";
 import { Files } from './Files';
 
 const PLACEHOLDER = 'Текст повідомлення сюди / Text message here / Текст сообщения';
-const TEXT_MAX_LENGTH = 1000;
+const TEXT_MAX_LENGTH = 2000;
 
 axios.defaults.timeout = 60000;
 
