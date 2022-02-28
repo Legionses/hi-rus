@@ -82,6 +82,14 @@
   text-align: center;
 }
 
+.manual h3 {
+  margin-bottom: 10px;
+}
+
+.auto h3 {
+  text-align: center;
+}
+
 .configText {
   position: relative;
   color: #282c34;

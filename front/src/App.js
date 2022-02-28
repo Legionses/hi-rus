@@ -98,13 +98,13 @@ function App() {
               <a href="https://t.me/tell_russians_truth">Канал в Телеграмі / Telegram channel / Канал в Телеграме</a>
             </address>
             <hr />
-            <section>
+            <section className="manual">
               <h3>{TEXT.manual}</h3>
               <button disabled={state === "loading"} onClick={requestEmails}>{TEXT.generate}</button>
               <p>{emails.join(", ")}</p>
             </section>
             <hr />
-            <section>
+            <section className="auto">
               <h3>{TEXT.auto}</h3>
               <div className="configText">
                   <textarea value={text} placeholder={PLACEHOLDER} onChange={changeText} maxLength={TEXT_MAX_LENGTH}/>
