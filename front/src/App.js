@@ -7,6 +7,8 @@ import { Files } from './Files';
 const PLACEHOLDER = 'Текст повідомлення сюди / Text message here / Текст сообщения';
 const TEXT_MAX_LENGTH = 1000;
 
+axios.defaults.timeout = 60000;
+
 function App() {
   const [text, setText] = useState("");
   const [lang, setLang] = useState('ua');
