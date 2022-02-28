@@ -17,14 +17,6 @@ async function getTransporter() {
     },
   });
 
-  const info = await transporter.sendMail({
-      from: 'Hi Russian Project <service@hi-russian.com>', // sender address
-      to: "nosock93@gmail.com", // list of receivers
-      subject: "Здравствуй, русский.", // Subject line
-      text: "TEST", // plain text body
-      // attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
-  });
-
   return transporter;
 }
 
