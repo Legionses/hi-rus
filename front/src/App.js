@@ -7,8 +7,6 @@ import { Files } from './Files';
 const PLACEHOLDER = 'Текст повідомлення сюди / Text message here / Текст сообщения';
 const TEXT_MAX_LENGTH = 2000;
 
-axios.defaults.timeout = 60000;
-
 function App() {
   const [text, setText] = useState("");
   const [lang, setLang] = useState('ua');
@@ -48,10 +46,15 @@ function App() {
       formData.append('message', text);
       await axios.post('api/send', formData);
       setState("success");
-      setStatusMessage("Your email was sent!");
+      setStatusMessage("Your email is being sent!");
     } catch (error) {
-      setState("error");
-      setStatusMessage("Error: " + error.message);
+      if (error.code === 503) {
+        setState("success");
+        setStatusMessage("Your email is being sent!");
+      } else {
+        setState("error");
+        setStatusMessage("Error: " + error.message);
+      }
     }
     
   }

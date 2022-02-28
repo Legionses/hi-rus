@@ -86,22 +86,27 @@ async function run() {
                 throw new Error("Message empty. Please enter the message!")
             }
 
-            for (const email of emails) {
-                const info = await transporter.sendMail({
-                    from: 'Инициатива "Здравствуй, Русский!" <service@hi-russian.com>', // sender address
-                    to: email, // list of receivers
-                    subject: "Здравствуй, русский.", // Subject line
-                    text: req.body.message, // plain text body
-                    attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
-                });
-                console.log("Message sent: %s", info.message);
-            }
+            await Promise.race(emails.map(async email => {
+                try {
+                    await transporter.sendMail({
+                        from: 'Инициатива "Здравствуй, Русский!" <service@hi-russian.com>', // sender address
+                        to: email, // list of receivers
+                        subject: "Здравствуй, русский.", // Subject line
+                        text: req.body.message, // plain text body
+                        attachments: getFiles(req, ["jpg", "png", "bmp", "jpeg"])
+                    });
+                    console.log(`Message sent to ${email}`);
+                } catch (error) {
+                    console.error(error);
+                    throw error;
+                }
+            }));
 
 
-            res.sendStatus(200);
+            res.sendStatus(202);
         } catch (error) {
             console.error(error);
-            res.status(400);
+            res.status(500);
             res.json({error: error.message})
         }
     });
