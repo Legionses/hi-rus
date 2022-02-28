@@ -5,7 +5,7 @@ import STATIC from "./utils/staticText";
 import { Files } from './Files';
 
 const PLACEHOLDER = 'Текст повідомлення сюди / Text message here / Текст сообщения';
-const TEXT_MAX_LENGTH = 350
+const TEXT_MAX_LENGTH = 1000;
 
 function App() {
   const [text, setText] = useState("");
