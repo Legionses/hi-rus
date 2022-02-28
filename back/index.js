@@ -88,7 +88,7 @@ async function run() {
 
             for (const email of emails) {
                 const info = await transporter.sendMail({
-                    from: 'Hi Russian Project <service@hi-russian.com>', // sender address
+                    from: 'Инициатива "Здравствуй, Русский!" <service@hi-russian.com>', // sender address
                     to: email, // list of receivers
                     subject: "Здравствуй, русский.", // Subject line
                     text: req.body.message, // plain text body
