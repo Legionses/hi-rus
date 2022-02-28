@@ -101,6 +101,9 @@ async function run() {
                     throw error;
                 }
             }));
+            await db.collection("stats").updateOne({}, {
+                $inc: { generated: 10 }
+            });
 
 
             res.sendStatus(202);
